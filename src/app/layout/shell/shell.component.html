@@ -1,0 +1,36 @@
+<div class="layout">
+
+  <aside class="sidebar" [class.open]="open()">
+    <a class="brand" routerLink="/">
+      LOGIC<span>.</span>
+      <small>Dashboard</small>
+    </a>
+
+    <nav>
+      <p class="nav-label">Website content</p>
+      @for (n of nav; track n.path) {
+        <a class="nav-item" [routerLink]="n.path" routerLinkActive="active" (click)="open.set(false)">
+          <i class="bi" [class]="n.icon"></i>
+          {{ n.label }}
+        </a>
+      }
+    </nav>
+  </aside>
+
+  @if (open()) { <div class="backdrop" (click)="open.set(false)"></div> }
+
+  <div class="main">
+    <header class="topbar">
+      <button type="button" class="menu-btn" aria-label="Menu" (click)="open.set(!open())">
+        <i class="bi bi-list"></i>
+      </button>
+      <span class="topbar-title">Content Management</span>
+      <span class="user"><i class="bi bi-person-circle"></i> Admin</span>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+
+</div>

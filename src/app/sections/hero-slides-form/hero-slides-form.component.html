@@ -1,0 +1,54 @@
+<form [formGroup]="form" (ngSubmit)="save()" novalidate>
+  <app-section-card step="1" title="Hero Carousel"
+      description="Slides shown at the top of the home page (1 to 6)."
+      [saving]="saving()" [loading]="loading()">
+
+    <div formArrayName="slides">
+      @for (slide of slides.controls; track slide; let i = $index) {
+        <div class="item-box mb-4" [formGroupName]="i">
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <strong class="text-brand">Slide {{ i + 1 }}</strong>
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-outline-secondary" aria-label="Move up"
+                      [disabled]="i === 0" (click)="move(i, -1)"><i class="bi bi-arrow-up"></i></button>
+              <button type="button" class="btn btn-outline-secondary" aria-label="Move down"
+                      [disabled]="i === slides.length - 1" (click)="move(i, 1)"><i class="bi bi-arrow-down"></i></button>
+              <button type="button" class="btn btn-outline-danger" aria-label="Delete slide"
+                      [disabled]="slides.length === 1" (click)="remove(i)"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-lg-8">
+              <div class="mb-3">
+                <label class="form-label" [for]="'slide-title-' + i">Title</label>
+                <input class="form-control" [id]="'slide-title-' + i" formControlName="title"
+                       maxlength="100" placeholder="Building a Sustainable Sports Economy">
+                <app-field-error [control]="slide.controls.title" />
+              </div>
+              <div>
+                <label class="form-label" [for]="'slide-sub-' + i">Subtitle</label>
+                <textarea class="form-control" rows="3" [id]="'slide-sub-' + i" formControlName="subtitle"
+                          maxlength="250" placeholder="A short line under the title"></textarea>
+                <app-field-error [control]="slide.controls.subtitle" />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <label class="form-label">Image</label>
+              <app-image-upload formControlName="image" />
+              <app-field-error [control]="slide.controls.image" />
+            </div>
+          </div>
+
+        </div>
+      }
+    </div>
+
+    <button type="button" class="btn btn-outline-primary" [disabled]="slides.length >= MAX" (click)="add()">
+      <i class="bi bi-plus-lg me-1"></i> Add slide ({{ slides.length }}/{{ MAX }})
+    </button>
+
+  </app-section-card>
+</form>

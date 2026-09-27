@@ -1,0 +1,100 @@
+$sidebar-w: 260px;
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 1040;
+  width: $sidebar-w;
+  padding: 28px 18px;
+  overflow-y: auto;
+  color: #fff;
+  background: var(--brand-dark);
+  transition: transform .3s ease;
+}
+
+.brand {
+  display: block;
+  margin-bottom: 40px;
+  padding: 0 12px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+
+  span { color: var(--brand-accent); }
+  small {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .6);
+  }
+}
+
+.nav-label {
+  margin: 0 0 10px;
+  padding: 0 12px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .45);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+  padding: 12px;
+  border-left: 3px solid transparent;
+  color: rgba(255, 255, 255, .75);
+  text-decoration: none;
+  transition: background .25s ease, color .25s ease;
+
+  i { font-size: 18px; }
+  &:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+  &.active { background: rgba(14, 124, 123, .35); border-left-color: var(--brand-accent); color: #fff; }
+}
+
+.main { margin-left: $sidebar-w; min-height: 100vh; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 64px;
+  padding: 0 32px;
+  background: #fff;
+  border-bottom: 1px solid #e3e9eb;
+}
+
+.topbar-title { margin-right: auto; font-weight: 600; color: var(--brand-dark); }
+.user { display: flex; align-items: center; gap: 8px; color: #6b7c80; i { font-size: 22px; } }
+
+.menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  color: var(--brand-dark);
+  background: none;
+  border: 1px solid #dfe5e7;
+}
+
+.content { max-width: 1100px; padding: 32px; }
+
+.backdrop { position: fixed; inset: 0; z-index: 1035; background: rgba(0, 0, 0, .45); }
+
+@media (max-width: 992px) {
+  .sidebar { transform: translateX(-100%); &.open { transform: none; } }
+  .main { margin-left: 0; }
+  .menu-btn { display: inline-flex; }
+  .topbar { padding: 0 16px; }
+  .content { padding: 20px 16px; }
+}

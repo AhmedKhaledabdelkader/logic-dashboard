@@ -1,1 +1,82 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+:root {
+  --brand-primary: #0e7c7b;
+  --brand-dark:    #0b2e33;
+  --brand-accent:  #f2a541;
+  --brand-light:   #f4f7f8;
+  --bs-body-font-family: 'Poppins', sans-serif;
+  --bs-primary: var(--brand-primary);
+  --bs-primary-rgb: 14, 124, 123;
+  --bs-link-color: var(--brand-primary);
+}
+
+body { background: var(--brand-light); color: #23363a; }
+.text-brand { color: var(--brand-primary) !important; }
+
+/* ===== buttons ===== */
+.btn-primary {
+  --bs-btn-bg: var(--brand-primary);
+  --bs-btn-border-color: var(--brand-primary);
+  --bs-btn-hover-bg: #0a6160;
+  --bs-btn-hover-border-color: #0a6160;
+  --bs-btn-active-bg: #0a6160;
+  --bs-btn-disabled-bg: var(--brand-primary);
+  --bs-btn-disabled-border-color: var(--brand-primary);
+  border-radius: 0;
+}
+.btn-outline-primary {
+  --bs-btn-color: var(--brand-primary);
+  --bs-btn-border-color: var(--brand-primary);
+  --bs-btn-hover-bg: var(--brand-primary);
+  --bs-btn-hover-border-color: var(--brand-primary);
+  --bs-btn-active-bg: var(--brand-primary);
+  border-radius: 0;
+}
+.btn-outline-secondary, .btn-outline-danger, .btn-danger { border-radius: 0; }
+
+/* ===== forms ===== */
+.form-label { font-weight: 600; font-size: 14px; color: var(--brand-dark); }
+.form-control {
+  border-radius: 0;
+  padding: .65rem .9rem;
+  border-color: #cfd8db;
+
+  &:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 .2rem rgba(14, 124, 123, .15); }
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-dirty { border-color: #dc3545; }
+}
+
+/* ===== page pieces used by every tab ===== */
+.page-head {
+  margin-bottom: 28px;
+  h1 { margin: 0 0 6px; font-size: 28px; font-weight: 700; color: var(--brand-dark); }
+  p  { margin: 0; color: #6b7c80; }
+}
+
+.item-box { padding: 20px; background: #fbfcfc; border: 1px solid #dfe5e7; }
+
+.preview-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--brand-dark);
+  color: rgba(255, 255, 255, .6);
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+  .placeholder { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; }
+  .placeholder i { font-size: 28px; }
+}
+
+.form-select {
+  border-radius: 0;
+  padding: .65rem .9rem;
+  border-color: #cfd8db;
+
+  &:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 .2rem rgba(14, 124, 123, .15); }
+}

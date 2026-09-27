@@ -1,0 +1,34 @@
+<form [formGroup]="form" (ngSubmit)="save()" novalidate>
+  <app-section-card step="2" title="Regional Section"
+      description="Title, paragraph and image shown below the carousel."
+      [saving]="saving()" [loading]="loading()">
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="mb-3">
+          <label class="form-label" for="regional-title">Title</label>
+          <input id="regional-title" class="form-control" formControlName="title" maxlength="120"
+                 placeholder="Local Presence. Regional Scale. Enduring Impact.">
+          <app-field-error [control]="form.controls.title" />
+        </div>
+
+        <div>
+          <label class="form-label" for="regional-paragraph">Paragraph</label>
+          <textarea id="regional-paragraph" class="form-control" rows="8" formControlName="paragraph"
+                    [attr.maxlength]="MAX_PARAGRAPH"></textarea>
+          <div class="d-flex justify-content-between">
+            <app-field-error [control]="form.controls.paragraph" />
+            <small class="text-muted ms-auto mt-1">{{ form.controls.paragraph.value.length }}/{{ MAX_PARAGRAPH }}</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <label class="form-label">Image</label>
+        <app-image-upload formControlName="image" />
+        <app-field-error [control]="form.controls.image" />
+      </div>
+    </div>
+
+  </app-section-card>
+</form>

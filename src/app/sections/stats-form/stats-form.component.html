@@ -1,0 +1,182 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="save()"
+  novalidate
+>
+
+  <app-section-card
+    step="3"
+    title="Statistics"
+    description="Numbers shown under the regional section (2 to 4 items)."
+    [saving]="saving()"
+    [loading]="loading()"
+  >
+
+    <!-- =============================================== -->
+    <!-- STATISTICS -->
+    <!-- =============================================== -->
+
+    <div
+      formArrayName="stats"
+      class="row g-3 mb-4"
+    >
+
+      @for (
+        stat of stats.controls;
+        track stat;
+        let i = $index
+      ) {
+
+        <div
+          class="col-md-6"
+          [formGroupName]="i"
+        >
+
+          <div class="item-box h-100">
+
+            <!-- ======================================= -->
+            <!-- HEADER -->
+            <!-- ======================================= -->
+
+            <div
+              class="d-flex justify-content-between align-items-center mb-3"
+            >
+
+              <strong class="text-brand">
+                Statistic {{ i + 1 }}
+              </strong>
+
+
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                aria-label="Delete statistic"
+
+                [disabled]="
+                  stats.length <= MIN
+                "
+
+                (click)="remove(i)"
+              >
+
+                <i class="bi bi-trash"></i>
+
+              </button>
+
+            </div>
+
+
+            <!-- ======================================= -->
+            <!-- FIELDS -->
+            <!-- ======================================= -->
+
+            <div class="row g-3">
+
+              <!-- =================================== -->
+              <!-- VALUE -->
+              <!-- =================================== -->
+
+              <div class="col-5">
+
+                <label
+                  class="form-label"
+                  [for]="'stat-number-' + i"
+                >
+                  Number
+                </label>
+
+
+                <input
+                  class="form-control"
+
+                  [id]="'stat-number-' + i"
+
+                  formControlName="number"
+
+                  maxlength="8"
+
+                  placeholder="28+"
+                >
+
+
+                <app-field-error
+                  [control]="stat.controls.number"
+
+                  [messages]="{
+                    pattern: 'Digits with an optional +, %, K or M (e.g. 28+).'
+                  }"
+                />
+
+              </div>
+
+
+              <!-- =================================== -->
+              <!-- TITLE -->
+              <!-- =================================== -->
+
+              <div class="col-7">
+
+                <label
+                  class="form-label"
+                  [for]="'stat-title-' + i"
+                >
+                  Title
+                </label>
+
+
+                <input
+                  class="form-control"
+
+                  [id]="'stat-title-' + i"
+
+                  formControlName="title"
+
+                  maxlength="80"
+
+                  placeholder="Years of Trusted Regional Expertise"
+                >
+
+
+                <app-field-error
+                  [control]="stat.controls.title"
+                />
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <!-- =============================================== -->
+    <!-- ADD STATISTIC -->
+    <!-- =============================================== -->
+
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+
+      [disabled]="
+        stats.length >= MAX
+      "
+
+      (click)="add()"
+    >
+
+      <i class="bi bi-plus-lg me-1"></i>
+
+      Add statistic
+
+      ({{ stats.length }}/{{ MAX }})
+
+    </button>
+
+  </app-section-card>
+
+</form>

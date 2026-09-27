@@ -1,0 +1,146 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="save()"
+  novalidate
+>
+
+  <app-section-card
+    step="4"
+    title="Video Section"
+    description="Background video with its title and subtitle."
+    [saving]="saving()"
+    [loading]="loading()"
+  >
+
+    <div class="row g-4">
+
+      <!-- =============================================== -->
+      <!-- VIDEO INFORMATION -->
+      <!-- =============================================== -->
+
+      <div class="col-lg-7">
+
+        <div class="mb-3">
+
+          <label
+            class="form-label"
+            for="video-title"
+          >
+            Title
+          </label>
+
+          <input
+            id="video-title"
+            type="text"
+            class="form-control"
+            formControlName="title"
+            maxlength="120"
+            placeholder="28 YEARS OF IMPACT"
+          >
+
+          <app-field-error
+            [control]="form.controls.title"
+          />
+
+        </div>
+
+
+        <div class="mb-3">
+
+          <label
+            class="form-label"
+            for="video-subtitle"
+          >
+            Subtitle
+          </label>
+
+          <textarea
+            id="video-subtitle"
+            class="form-control"
+            rows="3"
+            formControlName="subtitle"
+            maxlength="250"
+            placeholder="Explore Our Expertise and How We Can Support You Achieve Your Strategic Goals"
+          ></textarea>
+
+          <app-field-error
+            [control]="form.controls.subtitle"
+          />
+
+        </div>
+
+
+        <div>
+
+          <label
+            class="form-label"
+            for="video-url"
+          >
+            YouTube URL
+          </label>
+
+          <input
+            id="video-url"
+            type="url"
+            class="form-control"
+            formControlName="youtubeUrl"
+            placeholder="https://www.youtube.com/watch?v=lY8zvsXEv28"
+          >
+
+          <app-field-error
+            [control]="form.controls.youtubeUrl"
+          />
+
+        </div>
+
+      </div>
+
+
+      <!-- =============================================== -->
+      <!-- PREVIEW -->
+      <!-- =============================================== -->
+
+      <div class="col-lg-5">
+
+        <label class="form-label">
+          Preview
+        </label>
+
+
+        <div class="preview-box">
+
+          @if (videoId(); as id) {
+
+            <img
+              [src]="
+                'https://img.youtube.com/vi/'
+                + id
+                + '/hqdefault.jpg'
+              "
+              alt="Video thumbnail"
+              class="img-fluid"
+            >
+
+          } @else {
+
+            <div class="placeholder">
+
+              <i class="bi bi-youtube"></i>
+
+              <span>
+                Paste a valid YouTube link
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </app-section-card>
+
+</form>

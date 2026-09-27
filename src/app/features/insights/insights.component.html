@@ -1,0 +1,228 @@
+<div class="page-head">
+  <h1>Insights</h1>
+  <p>Manage the insight cards shown on the website.</p>
+</div>
+
+<div class="row g-4">
+
+  <!-- Form -->
+  <div class="col-lg-5">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="save()"
+      novalidate
+      class="sticky-form"
+    >
+      <app-section-card
+        [title]="editingId() ? 'Edit insight' : 'New insight'"
+        [saveLabel]="editingId() ? 'Update insight' : 'Add insight'"
+        [showCancel]="!!editingId()"
+        (cancelled)="cancel()"
+        [saving]="saving()"
+      >
+
+        <!-- Title -->
+        <div class="mb-3">
+          <label
+            class="form-label"
+            for="insight-title"
+          >
+            Title
+          </label>
+
+          <input
+            id="insight-title"
+            class="form-control"
+            formControlName="title"
+            maxlength="150"
+            placeholder="Governing Under Uncertainty"
+          >
+
+          <app-field-error
+            [control]="form.controls.title"
+          />
+        </div>
+
+        <!-- Image -->
+        <div class="mb-3">
+          <label class="form-label">
+            Cover image
+          </label>
+
+          <app-image-upload
+            formControlName="image"
+          />
+
+          <app-field-error
+            [control]="form.controls.image"
+          />
+        </div>
+
+        <!-- Featured -->
+        <div class="featured-option">
+
+          <div class="form-check">
+            <input
+              id="insight-featured"
+              type="checkbox"
+              class="form-check-input"
+              formControlName="isFeatured"
+            >
+
+            <label
+              class="form-check-label"
+              for="insight-featured"
+            >
+              Show on Home page
+            </label>
+          </div>
+
+          <small class="text-muted">
+            {{ featuredCount() }}/3 insights selected for the Home page.
+          </small>
+
+          @if (
+            form.controls.isFeatured.value &&
+            !editingFeaturedAllowed()
+          ) {
+            <div class="text-danger small mt-2">
+              Only 3 insights can appear on the Home page.
+            </div>
+          }
+
+        </div>
+
+      </app-section-card>
+    </form>
+  </div>
+
+
+  <!-- List -->
+  <div class="col-lg-7">
+    <section class="list-card">
+
+      <header class="list-header">
+
+        <div>
+          <h2>
+            All insights ({{ items().length }})
+          </h2>
+
+          <small class="featured-counter">
+            {{ featuredCount() }}/3 featured on Home
+          </small>
+        </div>
+
+      </header>
+
+
+      @if (loading()) {
+
+        <div class="state">
+          <span
+            class="spinner-border text-primary"
+          ></span>
+        </div>
+
+      } @else if (!items().length) {
+
+        <div class="state text-muted">
+          <i class="bi bi-inbox"></i>
+          No insights yet. Add the first one.
+        </div>
+
+      } @else {
+
+        @for (item of items(); track item.id) {
+
+          <div
+            class="row-item"
+            [class.editing]="item.id === editingId()"
+            [class.featured]="item.is_featured"
+          >
+
+            <!-- Image -->
+            <img
+              [src]="item.image"
+              [alt]="item.title"
+            >
+
+
+            <!-- Content -->
+            <div class="item-content">
+
+              <h3>
+                {{ item.title }}
+              </h3>
+
+              @if (item.is_featured) {
+
+                <span class="featured-badge">
+                  <i class="bi bi-house-fill"></i>
+                  Home
+                </span>
+
+              }
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="actions">
+
+              @if (deletingId() === item.id) {
+
+                <small class="me-1">
+                  Delete?
+                </small>
+
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="confirmDelete(item.id)"
+                >
+                  Yes
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm"
+                  (click)="deletingId.set(null)"
+                >
+                  No
+                </button>
+
+              } @else {
+
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  aria-label="Edit"
+                  (click)="edit(item)"
+                >
+                  <i class="bi bi-pencil"></i>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  aria-label="Delete"
+                  (click)="deletingId.set(item.id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+
+              }
+
+            </div>
+
+          </div>
+
+        }
+
+      }
+
+    </section>
+  </div>
+
+</div>

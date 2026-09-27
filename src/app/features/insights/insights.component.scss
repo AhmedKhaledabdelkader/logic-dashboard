@@ -1,0 +1,158 @@
+.sticky-form {
+  position: sticky;
+  top: 90px;
+}
+
+.list-card {
+  background: #fff;
+  border: 1px solid #dfe5e7;
+  border-top: 4px solid var(--brand-primary);
+
+  .list-header {
+    padding: 22px 24px;
+    border-bottom: 1px solid #e3e9eb;
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--brand-dark);
+    }
+  }
+}
+
+.featured-counter {
+  display: block;
+  margin-top: 4px;
+  color: var(--brand-primary);
+  font-weight: 500;
+}
+
+.featured-option {
+  padding: 14px 16px;
+  border: 1px solid #e3e9eb;
+  background: #f8fafb;
+  border-radius: 6px;
+
+  .form-check {
+    margin-bottom: 4px;
+  }
+
+  .form-check-label {
+    font-weight: 600;
+    color: var(--brand-dark);
+    cursor: pointer;
+  }
+
+  .form-check-input {
+    cursor: pointer;
+  }
+}
+
+.state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 50px 20px;
+}
+
+.row-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 16px 24px;
+
+  border-bottom: 1px solid #eef2f3;
+  border-left: 4px solid transparent;
+
+  transition: background 0.25s ease;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:hover {
+    background: var(--brand-light);
+  }
+
+  &.editing {
+    border-left-color: var(--brand-accent);
+    background: #fffaf1;
+  }
+
+  &.featured {
+    border-left-color: var(--brand-primary);
+  }
+
+  img {
+    flex: 0 0 auto;
+
+    width: 96px;
+    height: 60px;
+
+    object-fit: cover;
+
+    background: var(--brand-dark);
+  }
+
+  .item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    color: var(--brand-dark);
+  }
+
+  .featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    margin-top: 6px;
+    padding: 3px 8px;
+
+    border-radius: 4px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: var(--brand-primary);
+    background: var(--brand-light);
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .row-item {
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+
+  .row-item h3 {
+    flex-basis: 100%;
+    order: 3;
+  }
+
+  .row-item .item-content {
+    min-width: 0;
+  }
+
+  .row-item .actions {
+    margin-left: auto;
+  }
+}

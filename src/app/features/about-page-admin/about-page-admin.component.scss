@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+  margin-top: 1rem;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+input[type='text'],
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: #0d2b3e;
+    box-shadow: 0 0 0 3px rgba(13, 43, 62, 0.1);
+  }
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+// ---------------- Repeatable rows (values / presence) ----------------
+.value-row {
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 1.25rem 1.25rem 1rem;
+  margin-bottom: 1rem;
+  background: #fafafa;
+
+  label {
+    margin-top: 0.75rem;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  .remove-item-button {
+    margin-top: 1rem;
+    background: none;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    border-radius: 6px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: #c0392b;
+      color: #fff;
+    }
+  }
+}
+
+// "+ Add value" / "+ Add presence item" buttons — targeted by class now,
+// not by a fragile DOM-structure selector that assumed direct child of
+// <app-section-card> (content projection puts it several levels deeper).
+.add-item-button {
+  background: none;
+  border: 1px dashed rgba(13, 43, 62, 0.4);
+  color: #0d2b3e;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(13, 43, 62, 0.05);
+  }
+}
+
+// ---------------- Submit ----------------
+button[type='submit'] {
+  align-self: flex-start;
+  background: #0d2b3e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: #163f58;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}

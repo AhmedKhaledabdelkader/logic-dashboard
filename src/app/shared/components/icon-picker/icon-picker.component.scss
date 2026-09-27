@@ -1,0 +1,35 @@
+.icon-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: 0.5rem;
+  max-width: 420px;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.icon-option {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    border-color: rgba(13, 43, 62, 0.4);
+  }
+
+  &.selected {
+    border-color: var(--lc-primary, #0d2b3e);
+    background: rgba(13, 43, 62, 0.08);
+    color: var(--lc-primary, #0d2b3e);
+  }
+}

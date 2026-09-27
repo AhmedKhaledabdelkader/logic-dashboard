@@ -1,0 +1,86 @@
+@if (loading()) {
+  <p>Loading…</p>
+} @else {
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <!-- HERO -->
+    <app-section-card title="Hero">
+      <label>Title</label>
+      <input type="text" formControlName="heroTitle" />
+      <app-field-error [control]="form.controls.heroTitle" />
+
+      <label>Subtitle</label>
+      <input type="text" formControlName="heroSubtitle" />
+      <app-field-error [control]="form.controls.heroSubtitle" />
+    </app-section-card>
+
+    <!-- OUR STORY -->
+    <app-section-card title="Our Story">
+      <label>Title</label>
+      <input type="text" formControlName="storyTitle" />
+      <app-field-error [control]="form.controls.storyTitle" />
+
+      <label>Paragraph</label>
+      <textarea rows="5" formControlName="storyParagraph"></textarea>
+      <app-field-error [control]="form.controls.storyParagraph" />
+
+      <label>Image</label>
+      <app-image-upload formControlName="storyImage" />
+      <app-field-error [control]="form.controls.storyImage" />
+    </app-section-card>
+
+    <!-- WHAT WE VALUE (repeatable) -->
+    <app-section-card title="What We Value">
+      <div formArrayName="values">
+        @for (group of valuesArray.controls; track $index; let i = $index) {
+          <div [formGroupName]="i" class="value-row">
+
+            <label>Icon</label>
+            <app-icon-picker formControlName="icon" />
+            <app-field-error [control]="group.get('icon')" />
+
+            <label>Title</label>
+            <input type="text" formControlName="title" />
+            <app-field-error [control]="group.get('title')" />
+
+            <label>Subtitle</label>
+            <input type="text" formControlName="subtitle" />
+            <app-field-error [control]="group.get('subtitle')" />
+
+            <button type="button" (click)="removeValue(i)" class="remove-item-button">Remove</button>
+          </div>
+        }
+      </div>
+
+      <button type="button" class="add-item-button" (click)="addValue()">+ Add value</button>
+    </app-section-card>
+
+    <!-- OUR PRESENCE (repeatable) -->
+    <app-section-card title="Our Presence">
+      <div formArrayName="presence">
+        @for (group of presenceArray.controls; track $index; let i = $index) {
+          <div [formGroupName]="i" class="value-row">
+
+            <label>Title</label>
+            <input type="text" formControlName="title" />
+            <app-field-error [control]="group.get('title')" />
+
+            <label>Subtitle</label>
+            <input type="text" formControlName="subtitle" />
+            <app-field-error [control]="group.get('subtitle')" />
+
+            <button type="button" (click)="removePresence(i)" class="remove-item-button">Remove</button>
+          </div>
+        }
+      </div>
+
+      <button type="button" class="add-item-button" (click)="addPresence()">+ Add presence item</button>
+    </app-section-card>
+
+    <button type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving…' : 'Save changes' }}
+    </button>
+
+  </form>
+}

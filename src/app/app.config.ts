@@ -5,13 +5,14 @@ import { apiFeedbackInterceptor } from './core/interceptors/api-feedback.interce
 import { routes } from './app.routes';
 import { methodSpoofInterceptor } from './core/interceptors/method-spoof.interceptor';
 import { formDataBooleanNormalizerInterceptor } from './core/interceptors/form-data-boolean-normalizer.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
-    provideHttpClient(withInterceptors([apiFeedbackInterceptor,methodSpoofInterceptor,formDataBooleanNormalizerInterceptor])),
+    provideHttpClient(withInterceptors([apiFeedbackInterceptor,methodSpoofInterceptor,formDataBooleanNormalizerInterceptor,authInterceptor])),
   //   { provide: HTTP_INTERCEPTORS, useClass: MethodSpoofInterceptor, multi: true }
   ],
 };

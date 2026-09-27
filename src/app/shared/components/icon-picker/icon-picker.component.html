@@ -1,0 +1,15 @@
+<div class="icon-picker" [class.disabled]="disabled()">
+  @for (option of options; track option.class) {
+    <button
+      type="button"
+      class="icon-option"
+      [class.selected]="option.class === selected()"
+      [disabled]="disabled()"
+      (click)="select(option.class)"
+      [attr.aria-label]="option.label"
+      [title]="option.label"
+    >
+      <i class="bi" [class]="option.class"></i>
+    </button>
+  }
+</div>

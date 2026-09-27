@@ -1,36 +1,103 @@
 <div class="layout">
 
+  <!-- Sidebar -->
   <aside class="sidebar" [class.open]="open()">
-    <a class="brand" routerLink="/">
-      LOGIC<span>.</span>
+
+    <a
+      class="brand"
+      routerLink="/"
+      (click)="open.set(false)"
+    >
+      Houida<span>.</span>
       <small>Dashboard</small>
     </a>
 
     <nav>
       <p class="nav-label">Website content</p>
+
       @for (n of nav; track n.path) {
-        <a class="nav-item" [routerLink]="n.path" routerLinkActive="active" (click)="open.set(false)">
+        <a
+          class="nav-item"
+          [routerLink]="n.path"
+          routerLinkActive="active"
+          (click)="open.set(false)"
+        >
           <i class="bi" [class]="n.icon"></i>
           {{ n.label }}
         </a>
       }
     </nav>
+
   </aside>
 
-  @if (open()) { <div class="backdrop" (click)="open.set(false)"></div> }
+  <!-- Mobile backdrop -->
+  @if (open()) {
+    <div
+      class="backdrop"
+      (click)="open.set(false)"
+    ></div>
+  }
 
+  <!-- Main -->
   <div class="main">
+
+    <!-- Topbar -->
     <header class="topbar">
-      <button type="button" class="menu-btn" aria-label="Menu" (click)="open.set(!open())">
+
+      <!-- Mobile menu -->
+      <button
+        type="button"
+        class="menu-btn"
+        aria-label="Menu"
+        (click)="open.set(!open())"
+      >
         <i class="bi bi-list"></i>
       </button>
-      <span class="topbar-title">Content Management</span>
-      <span class="user"><i class="bi bi-person-circle"></i> Admin</span>
+
+      <!-- Page title -->
+      <span class="topbar-title">
+        Content Management
+      </span>
+
+      <!-- Authenticated user -->
+      <div class="user-section">
+
+        <!-- Avatar -->
+        <div class="user-avatar">
+          {{ user?.name?.charAt(0)?.toUpperCase() }}
+        </div>
+
+        <!-- User information -->
+        <div class="user-info">
+          <span class="user-name">
+            {{ user?.name }}
+          </span>
+
+          <span class="user-role">
+            {{ user?.role }}
+          </span>
+        </div>
+
+        <!-- Logout -->
+        <button
+          type="button"
+          class="logout-btn"
+          title="Logout"
+          (click)="logout()"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span>
+        </button>
+
+      </div>
+
     </header>
 
+    <!-- Page content -->
     <main class="content">
       <router-outlet />
     </main>
+
   </div>
 
 </div>

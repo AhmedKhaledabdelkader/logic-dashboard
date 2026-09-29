@@ -19,7 +19,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly apiUrl = 'https://dallas-clean-level-thru.trycloudflare.com/api/auth';
+  private readonly apiUrl = 'https://houida-consulting.page.gd/api/auth';
 
   private readonly TOKEN_KEY = 'dashboard_token';
   private readonly USER_KEY = 'dashboard_user';

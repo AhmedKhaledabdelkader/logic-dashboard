@@ -19,7 +19,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly apiUrl = 'https://examine-enables-couple-ntsc.trycloudflare.com/api/auth';
+  private readonly apiUrl = 'https://desperate-handling-deliver-family.trycloudflare.com/api/auth';
 
   private readonly TOKEN_KEY = 'dashboard_token';
   private readonly USER_KEY = 'dashboard_user';

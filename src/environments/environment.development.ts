@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://examine-enables-couple-ntsc.trycloudflare.com/api',   // ← your backend
-  mediaUrl: 'https://examine-enables-couple-ntsc.trycloudflare.com/api/media/', 
+  apiUrl: 'https://desperate-handling-deliver-family.trycloudflare.com/api',   // ← your backend
+  mediaUrl: 'https://desperate-handling-deliver-family.trycloudflare.com/api/media/', 
 };
 

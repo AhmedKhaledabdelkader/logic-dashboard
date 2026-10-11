@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://desperate-handling-deliver-family.trycloudflare.com/api',   // ← your backend
-  mediaUrl: 'https://desperate-handling-deliver-family.trycloudflare.com/api/media/', 
+  apiUrl: 'https://oxygen-winds-bestsellers-stop.trycloudflare.com/api',   // ← your backend
+  mediaUrl: 'https://oxygen-winds-bestsellers-stop.trycloudflare.com/api/media/', 
 };

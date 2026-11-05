@@ -1,6 +1,8 @@
+import { BACKEND_URL } from './backend';
+
+// Development build. The backend address is defined once in ./backend.ts
 export const environment = {
   production: false,
-  apiUrl: 'https://watches-swimming-cow-during.trycloudflare.com/api',   // ← your backend
-  mediaUrl: 'https://watches-swimming-cow-during.trycloudflare.com/api/media/', 
+  apiUrl: `${BACKEND_URL}/api`,
+  mediaUrl: `${BACKEND_URL}/api/media`,
 };
-

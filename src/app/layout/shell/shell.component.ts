@@ -40,6 +40,16 @@ export class ShellComponent {
       path: '/insights',
       icon: 'bi-lightbulb',
     },
+    {
+      label: 'Services',
+      path: '/services',
+      icon: 'bi-grid-1x2',
+    },
+    {
+      label: 'How We Work',
+      path: '/how-we-work',
+      icon: 'bi-signpost-split',
+    },
   ];
 
   logout(): void {

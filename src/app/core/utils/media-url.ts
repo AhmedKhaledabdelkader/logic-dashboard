@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 export function mediaUrl(image: string | null | undefined): string {
   if (!image) return '';
   if (/^(https?:)?\/\//i.test(image) || image.startsWith('blob:') || image.startsWith('data:')) return image;
-  return `${environment.mediaUrl}/${image.replace(/^\/+/, '')}`;
+  return `${environment.mediaUrl.replace(/\/+$/, '')}/${image.replace(/^\/+/, '')}`;
 }
 
 /** Returns a copy of the item with its `image` turned into a full URL */

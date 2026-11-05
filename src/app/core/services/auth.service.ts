@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
+import { API } from '../config/api-endpoints';
 import {
   AuthUser,
   LoginPayload,
@@ -19,7 +20,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly apiUrl = 'https://watches-swimming-cow-during.trycloudflare.com/api/auth';
+  private readonly apiUrl = API.auth;
 
   private readonly TOKEN_KEY = 'dashboard_token';
   private readonly USER_KEY = 'dashboard_user';

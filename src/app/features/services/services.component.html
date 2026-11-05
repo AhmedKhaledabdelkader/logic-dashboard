@@ -1,0 +1,365 @@
+<!-- ============ Hero ============ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-top">
+    <div>
+      <span class="eyebrow"><i class="bi bi-grid-1x2"></i> Capabilities</span>
+      <h1>Services</h1>
+      <p>Curate the capability areas shown on the website, with their sub-sections and bullet points.</p>
+    </div>
+
+    <button type="button" class="btn-new" (click)="openCreate()">
+      <i class="bi bi-plus-lg"></i> New service
+    </button>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <i class="bi bi-collection"></i>
+      <div><strong>{{ total() }}</strong><span>Total services</span></div>
+    </div>
+    <div class="stat ok">
+      <i class="bi bi-eye"></i>
+      <div><strong>{{ activeCount() }}</strong><span>Live on site</span></div>
+    </div>
+    <div class="stat muted">
+      <i class="bi bi-eye-slash"></i>
+      <div><strong>{{ inactiveCount() }}</strong><span>Hidden</span></div>
+    </div>
+    <div class="stat accent">
+      <i class="bi bi-list-check"></i>
+      <div><strong>{{ bulletCount() }}</strong><span>Bullet points</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Toolbar ============ -->
+<div class="toolbar">
+  <label class="search">
+    <i class="bi bi-search"></i>
+    <input
+      type="search"
+      placeholder="Search by title, description, letter or bullet..."
+      [value]="search()"
+      (input)="search.set($any($event.target).value)"
+    >
+    @if (search()) {
+      <button type="button" aria-label="Clear search" (click)="search.set('')">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    }
+  </label>
+
+  <div class="segment" role="tablist" aria-label="Filter by status">
+    <button type="button" [class.on]="status() === 'all'" (click)="status.set('all')">
+      All <b>{{ total() }}</b>
+    </button>
+    <button type="button" [class.on]="status() === 'active'" (click)="status.set('active')">
+      Live <b>{{ activeCount() }}</b>
+    </button>
+    <button type="button" [class.on]="status() === 'inactive'" (click)="status.set('inactive')">
+      Hidden <b>{{ inactiveCount() }}</b>
+    </button>
+  </div>
+</div>
+
+@if (canReorder() && !loading()) {
+  <p class="hint"><i class="bi bi-grip-vertical"></i> Drag cards, or use the arrows, to change the order they appear on the website.</p>
+}
+
+<!-- ============ Content ============ -->
+@if (loading()) {
+
+  <div class="grid">
+    @for (n of [1, 2, 3, 4, 5, 6]; track n) {
+      <div class="card sk">
+        <div class="sk-line w40 tall"></div>
+        <div class="sk-line w70"></div>
+        <div class="sk-line"></div>
+        <div class="sk-line w85"></div>
+        <div class="sk-line w55"></div>
+      </div>
+    }
+  </div>
+
+} @else if (loadFailed()) {
+
+  <div class="empty">
+    <div class="empty-icon err"><i class="bi bi-wifi-off"></i></div>
+    <h3>Could not load services</h3>
+    <p>Check that the backend is running and try again.</p>
+    <button type="button" class="btn btn-primary" (click)="load()">
+      <i class="bi bi-arrow-clockwise"></i> Retry
+    </button>
+  </div>
+
+} @else if (!total()) {
+
+  <div class="empty">
+    <div class="empty-icon"><i class="bi bi-grid-1x2"></i></div>
+    <h3>No services yet</h3>
+    <p>Add your first capability area to show it on the website.</p>
+    <button type="button" class="btn btn-primary" (click)="openCreate()">
+      <i class="bi bi-plus-lg"></i> Add a service
+    </button>
+  </div>
+
+} @else if (!filtered().length) {
+
+  <div class="empty">
+    <div class="empty-icon"><i class="bi bi-search"></i></div>
+    <h3>No matching services</h3>
+    <p>Try a different search term or filter.</p>
+    <button type="button" class="btn btn-outline-primary" (click)="clearFilters()">Clear filters</button>
+  </div>
+
+} @else {
+
+  <div class="grid">
+    @for (s of filtered(); track s.id; let idx = $index) {
+
+      <article
+        class="card"
+        [class.inactive]="!s.is_active"
+        [class.dragging]="dragId() === s.id"
+        [class.over]="overId() === s.id && dragId() !== s.id"
+        [attr.draggable]="canReorder()"
+        (dragstart)="onDragStart(s, $event)"
+        (dragover)="onDragOver(s, $event)"
+        (dragleave)="overId.set(null)"
+        (drop)="onDrop(s, $event)"
+        (dragend)="onDragEnd()"
+      >
+        <span class="code-watermark" aria-hidden="true">{{ s.code }}</span>
+
+        <header class="card-head">
+          <div class="icon-tile">
+            <i class="bi" [class]="s.icon || defaultIcon"></i>
+            @if (s.code) { <span class="code-chip">{{ s.code }}</span> }
+          </div>
+
+          <div class="head-actions">
+            @if (canReorder()) {
+              <div class="order">
+                <button type="button" aria-label="Move up" [disabled]="idx === 0" (click)="move(s, -1)">
+                  <i class="bi bi-chevron-up"></i>
+                </button>
+                <button type="button" aria-label="Move down" [disabled]="idx === total() - 1" (click)="move(s, 1)">
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+              </div>
+              <span class="grip" title="Drag to reorder"><i class="bi bi-grip-vertical"></i></span>
+            }
+          </div>
+        </header>
+
+        <h3 class="card-title">{{ s.title }}</h3>
+        <p class="card-desc">{{ s.description }}</p>
+
+        @if (groupLabels(s).length) {
+          <div class="tags">
+            @for (g of groupLabels(s); track g) { <span class="tag">{{ g }}</span> }
+          </div>
+        }
+
+        @if (s.items.length) {
+          <button type="button" class="bullets-toggle" (click)="toggleExpanded(s.id)" [attr.aria-expanded]="expandedId() === s.id">
+            <i class="bi bi-list-check"></i>
+            {{ s.items_count || s.items.length }} bullet point{{ (s.items_count || s.items.length) === 1 ? '' : 's' }}
+            <i class="bi chev" [class.bi-chevron-down]="expandedId() !== s.id" [class.bi-chevron-up]="expandedId() === s.id"></i>
+          </button>
+
+          @if (expandedId() === s.id) {
+            <div class="bullets">
+              @for (g of s.items; track g.id) {
+                <div class="bullet">
+                  @if (g.group_title) { <small>{{ g.group_title }}</small> }
+                  <span>{{ g.title }}</span>
+                </div>
+              }
+            </div>
+          }
+        } @else {
+          <div class="no-bullets"><i class="bi bi-info-circle"></i> No bullet points yet</div>
+        }
+
+        <footer class="card-foot">
+          <button
+            type="button"
+            class="switch"
+            [class.on]="s.is_active"
+            [disabled]="togglingId() === s.id"
+            [attr.aria-pressed]="s.is_active"
+            (click)="toggleActive(s, $event)"
+          >
+            <span class="knob"></span>
+            <em>{{ s.is_active ? 'Live' : 'Hidden' }}</em>
+          </button>
+
+          <div class="actions">
+            @if (deletingId() === s.id) {
+              <small>Delete?</small>
+              <button type="button" class="btn btn-danger btn-sm" (click)="confirmDelete(s.id)">Yes</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="deletingId.set(null)">No</button>
+            } @else {
+              <button type="button" class="icon-btn" aria-label="Edit" (click)="openEdit(s)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button type="button" class="icon-btn danger" aria-label="Delete" (click)="deletingId.set(s.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            }
+          </div>
+        </footer>
+      </article>
+
+    }
+  </div>
+
+}
+
+<!-- ============ Editor drawer ============ -->
+@if (drawerOpen()) {
+  <div class="scrim" (click)="closeDrawer()"></div>
+
+  <aside class="drawer" role="dialog" aria-modal="true" [attr.aria-label]="editingId() ? 'Edit service' : 'New service'">
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate class="drawer-form">
+
+      <header class="drawer-head">
+        <div>
+          <span class="eyebrow dark">{{ editingId() ? 'Editing' : 'Creating' }}</span>
+          <h2>{{ editingId() ? 'Edit service' : 'New service' }}</h2>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="closeDrawer()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </header>
+
+      <div class="drawer-body">
+
+        <!-- live preview -->
+        <div class="preview">
+          <div class="icon-tile sm">
+            <i class="bi" [class]="form.controls.icon.value || defaultIcon"></i>
+            @if (form.controls.code.value) { <span class="code-chip">{{ form.controls.code.value.toUpperCase() }}</span> }
+          </div>
+          <div class="preview-text">
+            <strong>{{ form.controls.title.value || 'Service title' }}</strong>
+            <span>{{ form.controls.description.value || 'Short description appears here.' }}</span>
+          </div>
+        </div>
+
+        <!-- basics -->
+        <div class="row g-3">
+          <div class="col-4 col-sm-3">
+            <label class="form-label" for="svc-code">Letter</label>
+            <input id="svc-code" class="form-control text-center code-input" formControlName="code" maxlength="5" placeholder="A">
+            <app-field-error [control]="form.controls.code" />
+          </div>
+          <div class="col-8 col-sm-9">
+            <label class="form-label" for="svc-title">Title</label>
+            <input id="svc-title" class="form-control" formControlName="title" maxlength="200" placeholder="Strategy &amp; Advisory">
+            <app-field-error [control]="form.controls.title" />
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="form-label" for="svc-desc">Description</label>
+          <textarea id="svc-desc" class="form-control" rows="4" formControlName="description" maxlength="5000"
+            placeholder="What this capability area delivers..."></textarea>
+          <div class="counter">{{ form.controls.description.value.length }}/5000</div>
+          <app-field-error [control]="form.controls.description" />
+        </div>
+
+        <!-- icon -->
+        <div class="mt-3">
+          <label class="form-label">Icon <small class="text-muted fw-normal">(optional)</small></label>
+          <div class="icon-grid">
+            @for (ic of icons; track ic.class) {
+              <button
+                type="button"
+                class="icon-opt"
+                [class.sel]="form.controls.icon.value === ic.class"
+                [title]="ic.label"
+                [attr.aria-label]="ic.label"
+                [attr.aria-pressed]="form.controls.icon.value === ic.class"
+                (click)="pickIcon(ic.class)"
+              >
+                <i class="bi" [class]="ic.class"></i>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- visibility -->
+        <label class="visibility">
+          <input type="checkbox" formControlName="is_active">
+          <span class="vis-track"><span class="vis-knob"></span></span>
+          <span class="vis-text">
+            <strong>{{ form.controls.is_active.value ? 'Visible on website' : 'Hidden from website' }}</strong>
+            <small>Hidden services stay here but are not shown publicly.</small>
+          </span>
+        </label>
+
+        <!-- bullets -->
+        <div class="bullets-editor">
+          <div class="be-head">
+            <h3>Bullet points</h3>
+            <span class="pill">{{ formBulletTotal() }}</span>
+          </div>
+          <p class="be-help">Use sub-sections to split the bullets into groups (e.g. “Process Consulting”). Leave the sub-section title empty for a plain list.</p>
+
+          <div formArrayName="sections">
+            @for (section of sections.controls; track section; let si = $index) {
+              <div class="section-block" [formGroupName]="si">
+
+                <div class="section-title">
+                  <i class="bi bi-folder2-open"></i>
+                  <input class="form-control" formControlName="title" maxlength="200"
+                    placeholder="Sub-section title (optional)" [attr.aria-label]="'Sub-section ' + (si + 1) + ' title'">
+                  @if (sections.length > 1) {
+                    <button type="button" class="icon-btn danger" aria-label="Remove sub-section" (click)="removeSection(si)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  }
+                </div>
+
+                <div formArrayName="bullets">
+                  @for (b of bullets(section).controls; track b; let bi = $index) {
+                    <div class="bullet-row" [formGroupName]="bi">
+                      <span class="dot"></span>
+                      <input class="form-control bullet-input" formControlName="title" maxlength="250"
+                        placeholder="Add a bullet point" (keydown.enter)="onBulletEnter($event, section, bi)">
+                      <button type="button" class="icon-btn" aria-label="Remove bullet" (click)="removeBullet(section, bi)">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+
+                <button type="button" class="add-link" (click)="addBullet(section)">
+                  <i class="bi bi-plus-circle"></i> Add bullet
+                </button>
+              </div>
+            }
+          </div>
+
+          <button type="button" class="add-section" (click)="addSection()">
+            <i class="bi bi-folder-plus"></i> Add sub-section
+          </button>
+        </div>
+
+      </div>
+
+      <footer class="drawer-foot">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeDrawer()" [disabled]="saving()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">
+          @if (saving()) { <span class="spinner-border spinner-border-sm me-2"></span> }
+          {{ editingId() ? 'Save changes' : 'Create service' }}
+        </button>
+      </footer>
+
+    </form>
+  </aside>
+}

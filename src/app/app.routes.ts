@@ -56,6 +56,22 @@ export const routes: Routes = [
             .then(m => m.InsightsComponent),
       },
 
+      {
+        path: 'services',
+        title: 'Services | LOGIC Dashboard',
+        loadComponent: () =>
+          import('./features/services/services.component')
+            .then(m => m.ServicesComponent),
+      },
+
+      {
+        path: 'how-we-work',
+        title: 'How We Work | LOGIC Dashboard',
+        loadComponent: () =>
+          import('./features/how-we-work/how-we-work.component')
+            .then(m => m.HowWeWorkComponent),
+      },
+
       // Add future dashboard pages here
 
     ],

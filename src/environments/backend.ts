@@ -5,5 +5,5 @@
  * dashboard follows: API endpoints, auth, media/image URLs, interceptors.
  * No trailing slash.
  */
-export const BACKEND_URL = 'https://utc-geographical-rug-briefly.trycloudflare.com/'
+export const BACKEND_URL = 'https://logicbackend-production.up.railway.app/'
   .replace(/\/+$/, ''); // a trailing slash is stripped automatically
